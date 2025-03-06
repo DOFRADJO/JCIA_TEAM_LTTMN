@@ -6,8 +6,10 @@ import {
   Tab, 
   Paper, 
   Button,
+  Avatar,
   CircularProgress,
-  Avatar
+  Snackbar,
+  Alert
 } from '@mui/material';
 import { CheckCircle } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +20,7 @@ const HomePage = ({ setLoading }) => {
   const [tabValue, setTabValue] = useState(0);
   const [previewImage, setPreviewImage] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,34 +34,75 @@ const HomePage = ({ setLoading }) => {
 
   const handleAnalyze = async () => {
     if (!previewImage || !isMounted) return;
-    
+
     setLoading(true);
-    
-    // Simulation d'analyse
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    const mockResults = {
-      image: previewImage,
-      prediction: ['Bonne qualité', 'Non mûre', 'Tachetée', 'Fissurée', 'Meurtrie', 'Pourrie'][
-        Math.floor(Math.random() * 6)
-      ],
-      confidence: Math.random() * 30 + 70,
-    };
-    
-    if (isMounted) {
-      navigate('/results', { state: mockResults });
+    setError(null);
+
+    try {
+      let file;
+      if (typeof previewImage === 'string') {
+        const response = await fetch(previewImage);
+        const blob = await response.blob();
+        file = new File([blob], 'plum.jpg', { type: 'image/jpeg' });
+      } else {
+        file = previewImage;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      console.log('API URL:', apiUrl);
+
+      const response = await fetch(`${apiUrl}/predict`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (e) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        throw new Error(errorData.detail || 'Erreur lors de l\'analyse');
+      }
+
+      const result = await response.json();
+
+      navigate('/results', { 
+        state: { 
+          image: previewImage,
+          apiResponse: result
+        }
+      });
+    } catch (error) {
+      console.error("Erreur API:", error);
+      setError(error.message || "Erreur de connexion au serveur");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  if (!isMounted) return null;
+  const handleCloseError = () => {
+    setError(null);
+  };
+
+  if (!isMounted) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ width: '100%', maxWidth: '800px', mx: 'auto', p: 3 }}>
       <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ mb: 4 }}>
         <span style={{ color: '#4a8c5e' }}>JCIA</span> Classificateur de Prunes
       </Typography>
-      
+
       <Paper elevation={2} sx={{ mb: 4 }}>
         <Tabs 
           value={tabValue} 
@@ -116,7 +160,7 @@ const HomePage = ({ setLoading }) => {
           ) : (
             <UploadComponent onUpload={handleImageCapture} />
           )}
-          
+
           <Box sx={{ mt: 4, textAlign: 'center' }}>
             <Typography variant="body2" color="text.secondary">
               ℹ️ Prenez une photo claire de la prune ou téléversez une image
@@ -124,6 +168,17 @@ const HomePage = ({ setLoading }) => {
           </Box>
         </>
       )}
+
+      <Snackbar
+        open={!!error}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

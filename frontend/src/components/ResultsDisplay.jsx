@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, Typography, Paper, Chip, LinearProgress } from '@mui/material';
 
 const plumStatus = {
-  'Bonne qualité': { color: 'success', emoji: '🍇' },
-  'Non mûre': { color: 'info', emoji: '🍏' },
+  'unaffected': { color: 'success', emoji: '🍇' },
+  'unripe': { color: 'info', emoji: '🍏' },
   'Tachetée': { color: 'warning', emoji: '🔴' },
   'Fissurée': { color: 'warning', emoji: '⚡' },
   'Meurtrie': { color: 'error', emoji: '💢' },

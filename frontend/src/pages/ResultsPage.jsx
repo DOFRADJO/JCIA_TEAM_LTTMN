@@ -26,7 +26,8 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const statusData = {
-  'Bonne qualité': {
+  'unaffected': {
+    label: 'Bonne qualité',
     icon: <CheckCircle color="success" sx={{ mr: 1 }} />,
     color: 'success',
     recommendations: [
@@ -35,16 +36,18 @@ const statusData = {
       "Peut être conservée 3-5 jours au réfrigérateur"
     ]
   },
-  'Non mûre': {
+  'unripe': {
+    label: 'Non mûre',
     icon: <LocalFlorist color="info" sx={{ mr: 1 }} />,
     color: 'info',
     recommendations: [
       "⏳ Pas encore à maturité",
       "Laisser mûrir 2-3 jours à température ambiante",
-      "Idéale pour les confitures si cueillie précocement"
+      "Conserver dans un sac en papier pour accélérer la maturation"
     ]
   },
-  'Tachetée': {
+  'spotted': {
+    label: 'Tachetée',
     icon: <Warning color="warning" sx={{ mr: 1 }} />,
     color: 'warning',
     recommendations: [
@@ -53,32 +56,36 @@ const statusData = {
       "Retirer les parties atteintes si nécessaire"
     ]
   },
-  'Fissurée': {
+  'cracked': {
+    label: 'Fissurée',
     icon: <LocalHospital color="warning" sx={{ mr: 1 }} />,
     color: 'warning',
     recommendations: [
       "❗ Fissures détectées",
-      "Consommer dans les 24 heures",
-      "Vérifier l'absence de moisissures internes"
+      "Vérifier l'absence de moisissures internes",
+      "Idéale pour transformation immédiate"
     ]
   },
-  'Meurtrie': {
+  'bruised': {
+    label: 'Meurtrie',
     icon: <ThumbDown color="error" sx={{ mr: 1 }} />,
     color: 'error',
     recommendations: [
       "🛑 Dommages mécaniques importants",
-      "Utiliser rapidement pour cuisiner (compotes, jus)",
-      "Jeter les parties trop abîmées"
+      "Utiliser rapidement pour cuisiner",
+      "Jeter les parties trop abîmées",
+      "Ne pas conserver plus de 24h"
     ]
   },
-  'Pourrie': {
+  'rotten': {
+    label: 'Pourrie',
     icon: <Delete color="error" sx={{ mr: 1 }} />,
     color: 'error',
     recommendations: [
       "☠️ DANGER - Non consommable",
       "Jeter immédiatement",
       "Désinfecter le contenant de stockage",
-      "Vérifier les fruits adjacentes"
+      "Vérifier les fruits adjacents"
     ]
   }
 };
@@ -114,12 +121,14 @@ const ResultsPage = ({ setLoading }) => {
     );
   }
 
-  if (!location.state) {
+  if (!location.state?.apiResponse) {
     return null;
   }
 
-  const { image, prediction = 'Bonne qualité', confidence = 92.5 } = location.state;
-  const { icon, color, recommendations } = statusData[prediction] || statusData['Bonne qualité'];
+  const { image, apiResponse } = location.state;
+  const mainCategory = apiResponse.level2?.category || apiResponse.level1.category;
+  const { label, icon, color, recommendations } = statusData[mainCategory] || statusData['unaffected'];
+ // const qualityScore = apiResponse.quality_score || 0.8; // Valeur par défaut si non fournie
 
   return (
     <Box sx={{ 
@@ -129,7 +138,7 @@ const ResultsPage = ({ setLoading }) => {
       p: 3,
       bgcolor: 'background.paper'
     }}>
-      <Button
+      {/* <Button
         startIcon={<ArrowBack />}
         onClick={() => {
           setLoading(true);
@@ -140,7 +149,7 @@ const ResultsPage = ({ setLoading }) => {
         color="primary"
       >
         Nouvelle analyse
-      </Button>
+      </Button> */}
       
       <Paper elevation={3} sx={{ 
         p: 3, 
@@ -166,13 +175,13 @@ const ResultsPage = ({ setLoading }) => {
               }}
             />
             <Chip
-              label={prediction}
+              label={label}
               color={color}
               sx={{
                 position: 'absolute',
                 top: 16,
                 right: 16,
-                fontSize: '0.8rem',
+                fontSize: '1.3rem',
                 fontWeight: 'bold'
               }}
             />
@@ -201,24 +210,31 @@ const ResultsPage = ({ setLoading }) => {
               Fiabilité:
             </Typography>
             <Typography variant="body1" fontWeight="bold">
-              {confidence.toFixed(1)}%
+              {apiResponse.level1.confidence.toFixed(1)}%
             </Typography>
           </Box>
         </Box>
 
         <LinearProgress 
           variant="determinate" 
-          value={confidence} 
-          color={
-            confidence > 80 ? 'success' : 
-            confidence > 60 ? 'warning' : 'error'
-          } 
+          value={apiResponse.level1.confidence} 
+          color={color}
           sx={{ 
             height: 8, 
             borderRadius: 4,
             mb: 3
           }}
         />
+
+
+        {apiResponse.level2 && (
+          <>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="h6" gutterBottom>
+              Détail: {apiResponse.level2.description}
+            </Typography>
+          </>
+        )}
 
         <Divider sx={{ my: 2 }} />
         
@@ -244,7 +260,7 @@ const ResultsPage = ({ setLoading }) => {
             }}>
               <ListItemText 
                 primary={rec.split(' - ')[0]} 
-                secondary={rec.split(' - ')[1] || rec} 
+               // secondary={rec.split(' - ')[1] || rec} 
                 primaryTypographyProps={{ 
                   fontWeight: 'medium',
                   color: rec.startsWith('✅') ? 'success.main' : 
@@ -278,7 +294,7 @@ const ResultsPage = ({ setLoading }) => {
           }}
           startIcon={<ThumbUp />}
         >
-          Valider le diagnostic
+          Sauvegarder le diagnostic
         </Button>
         <Button 
           variant="outlined"
