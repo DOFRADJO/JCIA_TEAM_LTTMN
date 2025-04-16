@@ -35,13 +35,13 @@ Ce notebook Jupyter a été développé dans le cadre du **JCIA Hackathon 2025**
    - Transformation, augmentation et équilibrage des images avec `transforms` (redimensionnement, normalisation, ...) en fonction du sous modèle.
 
 4. **Architecture du modèle**  
-   - Choix d'un modèle **Vision Transformer (ViT)** via `transformers.AutoImageProcessor` pour les 2 sous modèles de l'architecture.
+   - Choix d'un modèle **ConvNeXt v2** via `transformers.AutoImageProcessor` pour les 2 sous modèles de l'architecture.
    - Configuration de l'entraînement avec `torch` (optimiseur, fonctions de perte).
    - 
 
 5. **Entraînement, évaluation et test**  
    - Utilisation de `DataLoader` pour le chargement par lots.
-   - Calcul des métriques de performance (`classification_report`, `confusion_matrix`).
+   - Calcul des métriques de performance (`classification_report (accuracy (général et par classe), precision, recall, f1-score)`, `confusion_matrix`).
 
 ---
 
@@ -68,7 +68,7 @@ Ce notebook Jupyter a été développé dans le cadre du **JCIA Hackathon 2025**
 
 ## 🔍 Insights
 - **Défi principal** : Déséquilibre des classes (ex: plus d'images de prunes saines que défectueuses).
-- **Optimisation** : Fine-tuning du ViT et augmentation des données pour améliorer la généralisation.
+- **Optimisation** : Fine-tuning du ConvNeXt v2 et augmentation + équilibrage des données pour améliorer la généralisation.
 
 ---
 
