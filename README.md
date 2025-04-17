@@ -245,7 +245,11 @@ uvicorn api:app --reload
 - Le modèle est optimisé pour des images individuelles, bien cadrées
 - Fonctionne également sur **mobile** via navigateur 📱
 
+---
 
+# Démonstration vidéo
+
+- Vous trouverez une démonstration vidéo de notre application à travers le lien suivant : [lien vers la démonstration vidéo](https://youtu.be/62ewBdN8Grw?feature=shared/)
 
 ## 📜 Licence
 
